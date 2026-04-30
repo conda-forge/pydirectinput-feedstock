@@ -1,0 +1,44 @@
+schema_version: 1
+
+context:
+  name: pydirectinput
+  version: "1.0.4"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/PyDirectInput-${{ version }}.tar.gz
+  sha256: bebe65102c69208688402f9f4cbd2ae7afc174fd2123e156e178b1304e7f80a2
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - __win
+
+tests:
+  - python:
+      imports:
+        - pydirectinput
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Python mouse and keyboard input automation for Windows using Direct Input.
+  license: MIT
+  license_file: LICENSE.txt
+  homepage: https://github.com/learncodebygaming/pydirectinput
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
